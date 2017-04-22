@@ -70,7 +70,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 			$msg = "
 		           <div class='alert alert-success'>
 				   <button class='close' data-dismiss='alert'>&times;</button>
-				   <h2><strong>축하합니다 !</strong><br>  등록하신 계정이 사용가능합니다! <a href='index.php'>여기서 로그인...</a><h2>
+				   <h2><strong>축하합니다 !</strong><br>  등록하신 계정은 이제 사용가능합니다! <a href='index.php'>여기서 로그인...</a><h2>
 			       </div>
 			       ";	
 		}

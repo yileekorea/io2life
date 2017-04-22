@@ -55,7 +55,7 @@ if(isset($_POST['btn-signup']))
 			$msg = "
 					<div class='alert alert-success'>
 						<button class='close' data-dismiss='alert'>&times;</button>
-						<strong>성공하였습니다!</strong>  작성하신 이메일로 확인 메일이 발송되었습니다.
+						<strong>계정생성 성공하였습니다!</strong>  작성하신 이메일로 확인 메일이 발송되었습니다.<br>
                     이메일을 확인하시고 링크를 클릭하여 회원가입을 마치시기 바랍니다. 
 			  		</div>
 					";

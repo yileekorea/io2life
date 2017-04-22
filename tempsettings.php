@@ -227,29 +227,27 @@ function basic(obj)
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs"><?php echo $row['userEmail']; ?></span>
+              <!--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
+              <!--<span class="hidden-xs"><?php echo $row['userEmail']; ?></span>-->
+              <span>로그인 : <?php echo $row['userEmail']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
-<!--
+
               <li class="user-header">
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
                   <?php echo $row['userEmail']; ?>
-                  <small>Member since Nov. 2017</small>
+                  <small>Member since <?php echo $row['timestamp_value']; ?></small>
                 </p>
               </li>
--->
+
               <!-- Menu Footer-->
               <li class="user-footer">
 				<div class="box-body">
-                  <a href="logout.php" class="btn bg-maroon btn-block btn-flat margin"> Logout </a>
+					<a href="logout.php" class="btn bg-maroon btn-block btn-flat margin"> 나가기... </a>
 				</div>
               </li>
-			  
-			  
-			  
             </ul>
           </li>
 
