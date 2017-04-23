@@ -29,6 +29,7 @@ $tbl = $row['tbl_TempSet'];
 $stmt = $temp_set->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$numSensors = $tbl_TempSet[0][numSensor];
 /*
 $returned_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach($returned_results as $key=>$result) {
@@ -169,9 +170,9 @@ function basic(obj)
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
+              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!--<span class="hidden-xs"><?php echo $row['userEmail']; ?></span>-->
-              <span>로그인 : <?php echo $row['userEmail']; ?></span>
+              <span><?php echo $row['userEmail']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -180,7 +181,8 @@ function basic(obj)
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
                   <?php echo $row['userEmail']; ?>
-                  <small>Member since <?php echo $row['timestamp_value']; ?></small>
+                  <small>기기 번호 : <?php echo $row['mac']; ?></small>
+                  <small>회원가입 since <?php echo $row['timestamp_value']; ?></small>
                 </p>
               </li>
 
@@ -211,13 +213,13 @@ function basic(obj)
         <li class="header">MAIN SERVICES</li>
         <li class="treeview">
           <a href="home.php">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>전체 정보</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-pie-chart"></i> 
-            <span>Each room chart</span>
+            <span>온도 그래프</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -226,7 +228,7 @@ function basic(obj)
 			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
 
 				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> Room <?php echo $x+1; ?> Chart</a></li>
+					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
 			
 			<?php } ?>
           </ul>
@@ -234,17 +236,17 @@ function basic(obj)
 
         <li class="treeview">
           <a href="tempsettings.php">
-            <i class="fa fa-edit"></i> <span>Temp. settings</span>
+            <i class="fa fa-edit"></i> <span>온도 설정</span>
           </a>
         </li>
         <li class="active treeview">
           <a href="roomlabel.php">
-            <i class="fa fa-table"></i> <span>Room labels</span>
+            <i class="fa fa-table"></i> <span>방 이름설정</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-share"></i> <span>Realtime charts</span>
+            <i class="fa fa-share"></i> <span>실시간 온도</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -253,7 +255,7 @@ function basic(obj)
 			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> Realtime Room <?php echo $x+1; ?> Chart</a></li>
+					<i class="fa fa-circle-o"></i> 실시간 <?php echo $tbl_TempSet[$x][roomName]; echo $x+1; ?> 온도</a></li>
 			
 			<?php } ?>
 
@@ -261,8 +263,8 @@ function basic(obj)
           </ul>
         </li>
         <li class="header">CONTROL STATUS Info.</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Heating</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Valve Closed</span></a></li>
+        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>난방중 상태</span></a></li>
+        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>대기 상태</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -273,8 +275,8 @@ function basic(obj)
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        각방 이름 지정
-        <small>Version 2.0</small>
+        각방 이름설정
+        <small>기기 번호  <?php echo $row['mac']; ?></small>
       </h1>
     </section>
 
@@ -282,7 +284,7 @@ function basic(obj)
     <section class="content">
       <!-- Info boxes -->
 	<form id="save_rName" action = "usersetting_4.php" method = "POST" name="save_rName">
-<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]); $x++) { ?>
+<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
     <!-- Main content -->
 		<div class="row">
 			<!-- left column -->
@@ -338,6 +340,57 @@ function basic(obj)
 			</div>
 		</div>
 <?php } ?>
+
+		<div class="row">
+			<!-- left column -->
+			<div class="col-md-6">
+			  <!-- general form elements -->
+			  <div class="box box-warning">
+				<div class="box-header with-border">
+					<h3 class="box-title"><b><?php echo $tbl_TempSet[$numSensors-1][roomName]; ?></b></h3><br></br>
+					<?php echo "공급온수 -"; echo $numSensors; echo " 현재 온도는 : "; echo $tbl_TempSet[$numSensors-1][C_temp]; echo "°C   "
+					; echo "..... 마지막 측정 시각 :  "; echo $tbl_TempSet[$numSensors-1][timestamp_value];?>
+				</div>
+				<!-- /.box-header -->
+				
+				<!-- form start -->
+				<!--<form role="form">-->
+					<div class="box-body">
+
+						<div class="input-group">
+							<span class="input-group-addon" ><?php echo "들어오는 물 "; echo " 이름 ?" ?> </span>
+							<input type="text" class="form-control" placeholder="거실" value = "<?php echo $tbl_TempSet[$numSensors-1][roomName];?>" disabled>
+							<input id = <?php echo "rName";echo $numSensors-1;?> 
+									name = <?php echo "rName";echo $numSensors-1;?>
+									type = "text";" class="form-control" 
+									placeholder="거실" 
+									value = "<?php echo $tbl_TempSet[$numSensors-1][roomName];?>">
+						</div>
+						<br>
+
+						<!-- /.box-body -->
+						<div class="box-footer">
+						</div>
+						<div class="pull-left">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										  <div class="btn-group" role="group">
+											<button id="save_rName" name ="save_rName" type=submit class="btn btn-default"><i class="fa fa-floppy-o"></i>  설정 저장</button>
+										  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<!--</form>-->
+			  </div>
+			  <!-- /.box -->
+			</div>
+		</div>
+		
+		
+
 	</form>
 		
   

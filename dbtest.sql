@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `tbl_users` (
   `userEmail` varchar(100) NOT NULL,
   `userPass` varchar(100) NOT NULL,
   `userStatus` enum('Y','N') NOT NULL DEFAULT 'N',
+  `userAddress` varchar(100) DEFAULT NULL,
   `tokenCode` varchar(100) NOT NULL,
   `tbl_TempSet` varchar(100) DEFAULT NULL,
   `tbl_RoomTemp` varchar(100) DEFAULT NULL,

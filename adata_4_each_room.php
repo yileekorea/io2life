@@ -69,9 +69,9 @@ if (isset($_GET["roomParam"])) {
 	
 	//for ($x = 0; $x < ($tbl_TempSet[0]['numSensor']); $x++) {
 		if (isset($_GET["dateParam"])) {
-			$stmt = $data_4_n->runQuery("SELECT timestamp_value, current_temps FROM $tbl WHERE id=$x AND timestamp_value LIKE '".$_GET["dateParam"]."%'");
+			$stmt = $data_4_n->runQuery("SELECT timestamp_value, current_temps, current_status FROM $tbl WHERE id=$x AND timestamp_value LIKE '".$_GET["dateParam"]."%'");
 		} else {
-			$stmt = $data_4_n->runQuery("SELECT timestamp_value, current_temps FROM $tbl WHERE id=$x AND timestamp_value LIKE '".date('Y-m-d')."%'");
+			$stmt = $data_4_n->runQuery("SELECT timestamp_value, current_temps, current_status FROM $tbl WHERE id=$x+1 AND timestamp_value > (now() - interval 1 day)");
 		}
 		$stmt->execute();
 
@@ -81,6 +81,7 @@ if (isset($_GET["roomParam"])) {
 			//$strTime = $strTime *1000;
 			
 			$strONOFF = $tbl_RoomTemp['current_status'];
+/*
 			if ($strONOFF == 1){
 				$strONOFF = 28;
 				//echo "<script>alert(\"Now System Setting State is ZERO!\");</script>";
@@ -88,7 +89,7 @@ if (isset($_GET["roomParam"])) {
 				$strONOFF = 10;
 				//echo "<script>alert(\"Now System Setting State is HIGh!\");</script>";
 			}
-
+*/
 			$row_a[$x][] = array($tbl_RoomTemp['timestamp_value'], $tbl_RoomTemp['current_temps'], $strONOFF);
 		}
 		$fileName = "aeach_room";

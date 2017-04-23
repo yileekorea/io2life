@@ -41,7 +41,7 @@ $(document).ready(function(){
         $.get("./adata_4_each_room.php?roomParam="+roomText, function(data){
 			//g = new Dygraph(document.getElementById("aeach_room_1"), "aeach_room_1.csv", {
 			g = new Dygraph(document.getElementById("aeach_room"), "aeach_room.csv", {
-			   title: 'Daily Temperatures in Rooms vs ON/OFF',
+			   title: '하루 각방 온도와 난방 ON/OFF 상태',
 				ylabel: 'Temperature (C)',
 				legend: 'always',
 				showRangeSelector: true,

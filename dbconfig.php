@@ -4,7 +4,7 @@ class Database
      
 	
     private $host = "iot2ym.iptime.org";
-    private $db_name = "dbtest";
+    private $db_name = "io2db";
     private $username = "yilee";
     private $password = "1234";
 	

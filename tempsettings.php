@@ -227,9 +227,9 @@ function basic(obj)
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
+              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!--<span class="hidden-xs"><?php echo $row['userEmail']; ?></span>-->
-              <span>로그인 : <?php echo $row['userEmail']; ?></span>
+              <span><?php echo $row['userEmail']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -238,7 +238,8 @@ function basic(obj)
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
                   <?php echo $row['userEmail']; ?>
-                  <small>Member since <?php echo $row['timestamp_value']; ?></small>
+                  <small>기기 번호 : <?php echo $row['mac']; ?></small>
+                  <small>회원가입 since <?php echo $row['timestamp_value']; ?></small>
                 </p>
               </li>
 
@@ -269,13 +270,13 @@ function basic(obj)
         <li class="header">MAIN SERVICES</li>
         <li class="treeview">
           <a href="home.php">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>전체 정보</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-pie-chart"></i> 
-            <span>Each room chart</span>
+            <span>온도 그래프</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -284,7 +285,7 @@ function basic(obj)
 			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
 
 				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> Room <?php echo $x+1; ?> Chart</a></li>
+					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
 			
 			<?php } ?>
           </ul>
@@ -292,17 +293,17 @@ function basic(obj)
 
         <li class="active treeview">
           <a href="tempsettings.php">
-            <i class="fa fa-edit"></i> <span>Temp. settings</span>
+            <i class="fa fa-edit"></i> <span>온도 설정</span>
           </a>
         </li>
         <li class="treeview">
           <a href="roomlabel.php">
-            <i class="fa fa-table"></i> <span>Room labels</span>
+            <i class="fa fa-table"></i> <span>방 이름설정</span>
           </a>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-share"></i> <span>Realtime charts</span>
+            <i class="fa fa-share"></i> <span>실시간 온도</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -311,7 +312,7 @@ function basic(obj)
 			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> Realtime Room <?php echo $x+1; ?> Chart</a></li>
+					<i class="fa fa-circle-o"></i> 실시간 <?php echo $tbl_TempSet[$x][roomName]; echo $x+1; ?> 온도</a></li>
 			
 			<?php } ?>
 
@@ -319,8 +320,8 @@ function basic(obj)
           </ul>
         </li>
         <li class="header">CONTROL STATUS Info.</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Heating</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Valve Closed</span></a></li>
+        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>난방중 상태</span></a></li>
+        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>대기 상태</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -332,7 +333,7 @@ function basic(obj)
     <section class="content-header">
       <h1>
         각방 온도 설정
-        <small>Version 2.0</small>
+        <small>기기 번호  <?php echo $row['mac']; ?></small>
       </h1>
     </section>
 
