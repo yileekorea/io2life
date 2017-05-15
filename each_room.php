@@ -17,6 +17,13 @@ $stmt = $user_home->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$numSensors = 0;
+for ($x = 0; $x < 10; $x++) { 
+	if ($numSensors < $tbl_TempSet[$x][numSensor]){
+		$numSensors = $tbl_TempSet[$x][numSensor];
+	}
+}
+
 $room_x = $_GET["roomParam"];
 //$roomParamG="aeach_room_";
 //$roomParamG = $roomParamG.(String)$room_x;
@@ -167,7 +174,7 @@ $room_x = $_GET["roomParam"];
             </span>
           </a>
           <ul class="treeview-menu">
-			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
+			<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
 
 				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
@@ -184,7 +191,7 @@ $room_x = $_GET["roomParam"];
             </span>
           </a>
           <ul class="treeview-menu">
-			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
+			<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo $tbl_TempSet[$x][roomName]; ?>의 실시간 온도</a></li>
