@@ -29,6 +29,13 @@ $tbl = $row['tbl_TempSet'];
 $stmt = $temp_set->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$numSensors = 0;
+for ($x = 0; $x < 10; $x++) { 
+	if ($numSensors < $tbl_TempSet[$x][numSensor]){
+		$numSensors = $tbl_TempSet[$x][numSensor];
+	}
+}
+
 /*
 $returned_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach($returned_results as $key=>$result) {
@@ -170,7 +177,7 @@ function basic(obj)
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Io2Life | Dashboard</title>
+  <title>Io2Life | TempSetting</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -197,8 +204,8 @@ function basic(obj)
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini" onload="wsConnect();" onunload="ws.disconnect();">
-<!--<body class="hold-transition skin-blue sidebar-mini" >-->
+<!--<body class="hold-transition skin-blue sidebar-mini" onload="wsConnect();" onunload="ws.disconnect();">-->
+<body class="hold-transition skin-blue sidebar-mini" >
 
 <div class="wrapper">
 
@@ -208,7 +215,7 @@ function basic(obj)
     <a href="home.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Io2</b>LIFE</span>
+      <span class="logo-lg"><b>Io2</b>Life</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -273,23 +280,6 @@ function basic(obj)
             <i class="fa fa-dashboard"></i> <span>전체 정보</span>
           </a>
         </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i> 
-            <span>온도 그래프</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
-
-				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
-			
-			<?php } ?>
-          </ul>
-        </li>
 
         <li class="active treeview">
           <a href="tempsettings.php">
@@ -301,6 +291,25 @@ function basic(obj)
             <i class="fa fa-table"></i> <span>방 이름설정</span>
           </a>
         </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-pie-chart"></i> 
+            <span>온도 그래프</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+			<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
+
+				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
+					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
+			
+			<?php } ?>
+          </ul>
+        </li>
+		
         <li class="treeview">
           <a href="#">
             <i class="fa fa-share"></i> <span>실시간 온도</span>
@@ -309,10 +318,10 @@ function basic(obj)
             </span>
           </a>
           <ul class="treeview-menu">
-			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
+			<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> 실시간 <?php echo $tbl_TempSet[$x][roomName]; echo $x+1; ?> 온도</a></li>
+					<i class="fa fa-circle-o"></i> <?php echo $tbl_TempSet[$x][roomName]; ?>의 실시간 온도</a></li>
 			
 			<?php } ?>
 
@@ -342,7 +351,7 @@ function basic(obj)
       <!-- Info boxes -->
 	<form id="save" action = "usersetting_4.php" method = "POST" name="save">
 <?php $Label_t="{"; ?>
-<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
+<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
     <!-- Main content -->
 		<div class="row">
 			<!-- left column -->
@@ -480,7 +489,7 @@ onclick='doit(
 <!-- ChartJS 1.0.1 -->
 <script src="plugins/chartjs/Chart.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard2.js"></script>
+<!--<script src="dist/js/pages/dashboard2.js"></script>-->
 
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>

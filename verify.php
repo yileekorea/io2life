@@ -36,6 +36,8 @@ if(isset($_GET['id']) && isset($_GET['code']))
 			$stmt->bindparam(":tRTemp",$tbl_RTemp);
 			$stmt->execute();
 
+			$stmt = $user->runQuery("DROP TABLE IF EXISTS `$tbl_TempSet`");
+			$stmt->execute();
 			$stmt = $user->runQuery("CREATE TABLE IF NOT EXISTS `$tbl_TempSet` (
 									  `id` INT UNSIGNED NOT NULL,
 									  `numSensor` INT UNSIGNED NOT NULL,
@@ -44,8 +46,9 @@ if(isset($_GET['id']) && isset($_GET['code']))
 									  `C_temp` float(4) DEFAULT NULL,
 									  `H_temp` float(4) DEFAULT NULL,
 									  `roomStatus` float(4) DEFAULT NULL,
-									  `timestamp_value` datetime DEFAULT NULL
-									) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
+									  `timestamp_value` datetime DEFAULT NULL,
+									  index idx1(id, numSensor, roomStatus, timestamp_value)
+									) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 									");
 			$stmt->execute();
 
@@ -55,31 +58,34 @@ if(isset($_GET['id']) && isset($_GET['code']))
 										VALUE ($x, 0, 'RoomName', 25, 25, 25, 0, now());
 									");
 			$stmt->execute();
-			}	
-	
+			}
+			
+			$stmt = $user->runQuery("DROP TABLE IF EXISTS `$tbl_RTemp`");
+			$stmt->execute();
 			$stmt = $user->runQuery("CREATE TABLE IF NOT EXISTS `$tbl_RTemp` (
 									  `id` INT UNSIGNED NOT NULL,
 									  `timestamp_value` datetime DEFAULT NULL,
 									  `current_temps` float(4) DEFAULT NULL,
 									  `sensor_name` VARCHAR(40) DEFAULT NULL,
-									  `current_status` float(4) DEFAULT NULL
-									) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+									  `current_status` float(4) DEFAULT NULL,
+									  index idx2(id, timestamp_value, current_temps, sensor_name, current_status)
+									) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 									");
 			$stmt->execute();
 
 			$msg = "
-		           <div class='alert alert-success'>
+		           <div class='alert alert-success col-sm-6 col-sm-offset-3'>
 				   <button class='close' data-dismiss='alert'>&times;</button>
-				   <h2><strong>축하합니다 !</strong><br>  등록하신 계정은 이제 사용가능합니다! <a href='index.php'>여기서 로그인...</a><h2>
+				   <h3><strong>등록해 주셔서 감사합니다 !</strong><br>  등록하신 계정은 이제 사용가능합니다! <br><br><a href='index.php'>여기서 로그인...</a><h3>
 			       </div>
 			       ";	
 		}
 		else
 		{
 			$msg = "
-		           <div class='alert alert-error'>
+		           <div class='alert alert-warning col-sm-6 col-sm-offset-3'>
 				   <button class='close' data-dismiss='alert'>&times;</button>
-				   <h2><strong>다시 확인해 주세요 !</strong><br>  계정이 이미 사용 가능한 상태 입니다! <a href='index.php'>여기서 로그인...</a></h2>
+				   <h3><strong>다시 확인해 주세요 !</strong><br>  계정이 이미 사용 가능한 상태 입니다! <br><br><a href='index.php'>여기서 로그인...</a></h3>
 
 			       </div>
 			       ";
@@ -88,9 +94,9 @@ if(isset($_GET['id']) && isset($_GET['code']))
 	else
 	{
 		$msg = "
-		       <div class='alert alert-error'>
+				<div class='alert alert-danger col-sm-6 col-sm-offset-3'>
 			   <button class='close' data-dismiss='alert'>&times;</button>
-			   <h2><strong>sorry !</strong><br>  관련된 계정 정보를 찾을 수 없습니다 : <a href='signup.php'>여기서 새로 등록...</a></h2>
+			   <h3><strong>죄송합니다 !</strong><br>  관련된 계정 정보를 찾을 수 없습니다 :<br><br> <a href='signup.php'>여기서 새로 등록...</a></h3>
 			   </div>
 			   ";
 	}
@@ -103,9 +109,18 @@ if(isset($_GET['id']) && isset($_GET['code']))
   <head>
     <title>Confirm Registration</title>
     <!-- Bootstrap -->
+	<!--
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="assets/styles.css" rel="stylesheet" media="screen">
+	-->
+	
+	        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
      <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -113,13 +128,20 @@ if(isset($_GET['id']) && isset($_GET['code']))
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   </head>
   <body id="login">
-    <div class="container">
+        <div class="top-content">
+            <div class="inner-bg">
+				<div class="container">    <div class="container">
 
-		<?php if(isset($msg)) { echo $msg; } ?>
+				<?php if(isset($msg)) { echo $msg; } ?>
 		
-    </div> <!-- /container -->
-
+				</div> <!-- /container -->
+			</div>
+		</div>
+		
     <script src="vendors/jquery-1.9.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/jquery.backstretch.min.js"></script>
+	<script src="assets/js/scripts.js"></script>
+	
   </body>
 </html>

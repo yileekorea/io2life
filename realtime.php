@@ -81,7 +81,7 @@ $room_x = $_GET["roomParam"];
     <a href="home.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-md"><b>Io2</b>LIFE</span>
+      <span class="logo-md"><b>Io2</b>Life</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -146,7 +146,17 @@ $room_x = $_GET["roomParam"];
             <i class="fa fa-dashboard"></i> <span>전체 정보</span>
           </a>
         </li>
+
         <li class="treeview">
+          <a href="tempsettings.php">
+            <i class="fa fa-edit"></i> <span>온도 설정</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="roomlabel.php">
+            <i class="fa fa-table"></i> <span>방 이름설정</span>
+          </a>
+        </li>        <li class="treeview">
           <a href="#">
             <i class="fa fa-pie-chart"></i> 
             <span>온도 그래프</span>
@@ -164,16 +174,6 @@ $room_x = $_GET["roomParam"];
           </ul>
         </li>
 
-        <li class="treeview">
-          <a href="tempsettings.php">
-            <i class="fa fa-edit"></i> <span>온도 설정</span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="roomlabel.php">
-            <i class="fa fa-table"></i> <span>방 이름설정</span>
-          </a>
-        </li>
         <li class="active treeview">
           <a href="#">
             <i class="fa fa-share"></i> <span>실시간 온도</span>
@@ -185,7 +185,7 @@ $room_x = $_GET["roomParam"];
 			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> 실시간 <?php echo $tbl_TempSet[$x][roomName]; echo $x+1; ?> 온도</a></li>
+					<i class="fa fa-circle-o"></i> <?php echo $tbl_TempSet[$x][roomName]; ?>의 실시간 온도</a></li>
 			
 			<?php } ?>
 
@@ -225,7 +225,7 @@ $room_x = $_GET["roomParam"];
 			  <div class="box box-primary">
 				<!-- Graph box header start -->
 				<div class="box-header with-border">
-					<h2 class="box-title"><b>방 - <?php echo $room_x ?> : <?php echo $tbl_TempSet[$room_x-1][roomName];; ?>의 실시간 그래프</h2></b>
+					<h2 class="box-title"><b>(방  <?php echo $room_x ?> ) <?php echo $tbl_TempSet[$room_x-1][roomName];; ?>의 실시간 그래프</h2></b>
                             <div class="header">
 								<!--<p><b>Date:</b> <input type="text" placeholder="오늘 <?php echo date("Y-m-d");?>" id="in_datepicker" /></p>-->
 

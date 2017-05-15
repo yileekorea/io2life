@@ -63,8 +63,8 @@ $(document).ready(function() {
 				text: 'Temperature (°C)',
 				margin: 5
 			},
-			min: 20,
-			max: 35,
+			min: 10,
+			max: 40,
 		},
 		series: [{
 			name: '방 - '+roomText,

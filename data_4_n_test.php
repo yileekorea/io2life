@@ -60,6 +60,7 @@ $tbl = $row['tbl_RoomTemp'];
 
 
 $row_a = array();
+/*
 $row_a[0]['num_sensors'] = $tbl_TempSet[0]['numSensor'];
 
 //for ($x = 0; $x < (1); $x++) {
@@ -83,6 +84,17 @@ for ($x = 0; $x < ($tbl_TempSet[0]['numSensor']); $x++) {
 //	$tbl_RoomTemp = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 }
+*/
+$stmt = $data_4_n->runQuery("SELECT timestamp_value, current_temps FROM $tbl WHERE timestamp_value > (now() - interval 1 day)");
+	$stmt->execute();
+
+	while ($tbl_RoomTemp = $stmt->fetchAll(PDO::FETCH_ASSOC)) 
+	{
+		$strTime = strtotime($tbl_RoomTemp['timestamp_value']);
+		$strTime = $strTime *1000;
+		//$strTime = $strTime -(8.5*3600);
+		$row_a[$x]['data'][] = array($strTime, $tbl_RoomTemp['current_temps']);
+	}
 	
 echo(json_encode($row_a, JSON_NUMERIC_CHECK));
 //print json_encode($row_a, JSON_NUMERIC_CHECK);

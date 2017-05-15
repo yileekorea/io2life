@@ -1,12 +1,27 @@
 <?php
 class Database
 {
-     
-	
-    private $host = "iot2ym.iptime.org";
+/*
+    private $host = "iot2better.iptime.org";
     private $db_name = "io2db";
-    private $username = "yilee";
-    private $password = "1234";
+    private $username = "root";
+    private $password = "systemmmt";    
+	private $port = "3386";
+
+
+    private $host = "db.io2life.com";
+    private $db_name = "dbio2life";
+    private $username = "io2life";
+    private $password = "lip905090&1";    
+*/
+//    private $host = "io2better.net";
+    //private $host = "io2better.net";
+    //private $host = "222.121.101.84";
+	private $host = "192.168.30.30";
+    private $db_name = "io2db";
+    private $username = "root";
+    private $password = "systemmmt";
+	private $port = "3386";
 	
 	//IF $mailServerType = 'smtp'
 	public $smtp_server = 'smtp.gmail.com';
@@ -23,7 +38,8 @@ class Database
 	    $this->conn = null;    
         try
 		{
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn = new PDO("mysql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name, $this->username, $this->password);
+			$this->conn->exec("set names utf8");
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
         }
 		catch(PDOException $exception)

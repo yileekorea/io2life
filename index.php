@@ -28,7 +28,7 @@ if(isset($_POST['btn-login']))
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Login | io2LIFE</title>
+        <title>Login | io2Life</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -89,7 +89,7 @@ if(isset($_POST['btn-login']))
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	<div class="form-top">
                         		<div class="form-top-left">
-                        			<h3>로그인 | <b>io2LIFE</b></h3>
+                        			<h3>로그인 | <b>io2Life</b></h3>
                             		<p>로그인 하기를 원하시면,,, 이메일 주소와 비밀번호 입력하세요:</p>
                         		</div>
                         		<div class="form-top-right">

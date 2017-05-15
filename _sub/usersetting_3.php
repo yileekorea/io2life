@@ -38,7 +38,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // This needs to point to the web socket in the Node-RED flow
         // ... in this case it's ws/simple
         //wsUri += "//" + loc.host + loc.pathname.replace("simple","ws/simple");
-		wsUri += "//io2better.net:4443/ws/simple";
+		wsUri += "//iot2better.iptime.org:443/ws/simple";
 		
 
         function wsConnect() {

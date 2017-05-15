@@ -39,40 +39,53 @@ CREATE TABLE IF NOT EXISTS `tbl_users` (
   `tbl_RoomTemp` varchar(100) DEFAULT NULL,
   `timestamp_value` datetime DEFAULT NULL,
   PRIMARY KEY (`userID`),
-  UNIQUE KEY `userEmail` (`userEmail`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  UNIQUE KEY `userEmail` (`userEmail`),
+  index idx1(userID, mac, userName, userEmail, userStatus, userAddress, timestamp_value)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-//+----+-----------------+--------+--------+--------+-------------+---------------------+
-//| id | name            | L_temp | C_temp | H_temp | room_status | timestamp_value     |
-//+----+-----------------+--------+--------+--------+-------------+---------------------+
-//|  1 | 파더            |     27 |   28.5 |     27 | 1           | 2017-01-28 23:46:36 |
-CREATE TABLE IF NOT EXISTS `tbl_temperature` (
+/*
++-----------------+------------------+------+-----+---------+-------+
+| Field           | Type             | Null | Key | Default | Extra |
++-----------------+------------------+------+-----+---------+-------+
+| id              | int(10) unsigned | NO   | MUL | NULL    |       |
+| numSensor       | varchar(16)      | YES  |     | NULL    |       |
+| roomName        | varchar(16)      | YES  |     | NULL    |       |
+| L_temp          | float            | YES  |     | NULL    |       |
+| C_temp          | float            | YES  |     | NULL    |       |
+| H_temp          | float            | YES  |     | NULL    |       |
+| roomStatus      | float            | YES  |     | NULL    |       |
+| timestamp_value | datetime         | YES  |     | NULL    |       |
++-----------------+------------------+------+-----+---------+-------+
+*/
+CREATE TABLE IF NOT EXISTS `tTempSet_6001940C2E4E` (
   `id` INT UNSIGNED NOT NULL,
-  `numSensor` VARCHAR(16) DEFAULT NULL,
-  `roomName` VARCHAR(16) DEFAULT NULL,
+  `numSensor` INT UNSIGNED NOT NULL,
+  `roomName` VARCHAR(16) NOT NULL DEFAULT 'RoomName',
   `L_temp` float(4) DEFAULT NULL,
   `C_temp` float(4) DEFAULT NULL,
   `H_temp` float(4) DEFAULT NULL,
   `roomStatus` float(4) DEFAULT NULL,
-  `timestamp_value` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
-
+  `timestamp_value` datetime DEFAULT NULL,
+  index idx1(id, numSensor, roomStatus, timestamp_value)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 //+----+---------------------+---------------+-----------------+----------------+
 //| id | timestamp_value     | current_temps | sensor_name     | current_status |
 //+----+---------------------+---------------+-----------------+----------------+
 //|  0 | 2017-01-28 22:21:49 |          27.4 | 28-051621306fff | 1              |
 //+----+---------------------+---------------+-----------------+----------------+
-DROP TABLE IF EXISTS `tbl_room_temps`;
-CREATE TABLE `tbl_room_temps` (
+DROP TABLE IF EXISTS `tRoomTemp_5CCF7F23D7F8`;
+CREATE TABLE `tRoomTemp_5CCF7F23D7F8` (
   `id` INT UNSIGNED NOT NULL,
   `timestamp_value` datetime DEFAULT NULL,
   `current_temps` float(4) DEFAULT NULL,
   `sensor_name` VARCHAR(40) DEFAULT NULL,
   `current_status` float(4) DEFAULT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  index idx2(id, timestamp_value, current_temps, sensor_name, current_status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

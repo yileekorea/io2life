@@ -22,16 +22,17 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <!DOCTYPE html>
-<html lang="ko">
+<!--<html lang="ko">-->
+<html>
 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Settings | io2LIFE</title>
+        <title>Settings | io2Life</title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="assets/css/form-elements.css">
@@ -57,12 +58,16 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		var ws;
         var wsUri = "ws:";
         var loc = window.location;
+		var mac = "<?php echo($mac); ?>";
+		//alert('<?=$mac?>');
+		//alert(mac);
         console.log(loc);
         if (loc.protocol === "https:") { wsUri = "wss:"; }
         // This needs to point to the web socket in the Node-RED flow
         // ... in this case it's ws/simple
         //wsUri += "//" + loc.host + loc.pathname.replace("simple","ws/simple");
-		wsUri += "//iot2better.iptime.org:443/ws/simple";
+		//wsUri += "//iot2better.iptime.org:4443/ws/" + mac;
+		wsUri += "//io2better.net:4443/ws/io2life";
 		
 
         function wsConnect() {
@@ -191,7 +196,7 @@ else if(isset($_POST['save_rName']))
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	<div class="form-top">
                         		<div class="form-top-left">
-                        			<h3>장치 설정 | <b>io2LIFE</b></h3>
+                        			<h3>장치 설정 | <b>io2Life</b></h3>
                         		</div>
                             </div>
                             <div class="form-bottom">

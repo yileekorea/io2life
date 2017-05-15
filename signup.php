@@ -25,10 +25,10 @@ if(isset($_POST['btn-signup']))
 	if($stmt->rowCount() > 0)
 	{
 		$msg = "
-		      <div class='alert alert-error'>
-				<button class='close' data-dismiss='alert'>&times;</button>
-					<strong>Sorry !</strong>  이미 존재하는 이메일 주소입니다 , 다른 이메일 주소를 사용하시기 바랍니다. 
-			  </div>
+				<div class='alert alert-danger col-sm-6 col-sm-offset-3'>
+					<button class='close' data-dismiss='alert'>&times;</button>
+					<strong>죄송합니다!</strong>  이미 존재하는 이메일 주소입니다,<br> 다른 이메일 주소를 사용하시기 바랍니다. 
+				</div>
 			  ";
 	}
 	else
@@ -42,20 +42,20 @@ if(isset($_POST['btn-signup']))
 			$message = "					
 						안녕하세요 $uname,님
 						<br /><br />
-						io2LIFE에 오신것을 환영합니다!<br/>
+						io2Life에 오신것을 환영합니다!<br/>
 						회원가입 절차를 마치시려면 아래의 링크를 클릭하세요...<br/>
 						<br /><br />
-						<a href='https://iot2ym.iptime.org/io2life/verify.php?id=$id&code=$code'>계정을 활성화 하시려면 여기를 클릭하세요! ^*^</a>
+						<a href='https://io2better.net/verify.php?id=$id&code=$code'>계정을 활성화 하시려면 여기를 클릭하세요! ^*^</a>
 						<br /><br />
 						감사합니다,";
 						
-			$subject = "io2LIFE 회원가입 확인 메일... ";
+			$subject = "io2Life 회원가입 확인 메일... ";
 						
 			$reg_user->send_mail($email,$message,$subject);	
 			$msg = "
-					<div class='alert alert-success'>
+					<div class='alert alert-success col-sm-6 col-sm-offset-3'>
 						<button class='close' data-dismiss='alert'>&times;</button>
-						<strong>계정생성 성공하였습니다!</strong>  작성하신 이메일로 확인 메일이 발송되었습니다.<br>
+						<strong>계정 만들기 성공하였습니다!</strong><br>  작성하신 이메일로 확인 메일이 발송되었습니다.<br>
                     이메일을 확인하시고 링크를 클릭하여 회원가입을 마치시기 바랍니다. 
 			  		</div>
 					";
@@ -76,7 +76,7 @@ if(isset($_POST['btn-signup']))
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Signup | io2LIFE</title>
+        <title>Signup | io2Life</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -114,7 +114,7 @@ if(isset($_POST['btn-signup']))
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	<div class="form-top">
                         		<div class="form-top-left">
-                        			<h3>회원가입 | <b>io2LIFE</b></h3>
+                        			<h3>회원가입 | <b>io2Life</b></h3>
                             		<p>새로 회원가입을 원하시면,,, 기기일련번호, 아이디, 이메일주소, 비밀번호 입력하세요:</p>
                         		</div>
                         		<div class="form-top-right">

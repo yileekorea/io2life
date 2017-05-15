@@ -41,11 +41,11 @@ $(document).ready(function(){
         $.get("./adata_4_each_room.php?roomParam="+roomText, function(data){
 			//g = new Dygraph(document.getElementById("aeach_room_1"), "aeach_room_1.csv", {
 			g = new Dygraph(document.getElementById("aeach_room"), "aeach_room.csv", {
-			   title: '하루 각방 온도와 난방 ON/OFF 상태',
+				title: '온도와 난방 ON/OFF',
 				ylabel: 'Temperature (C)',
 				legend: 'always',
 				showRangeSelector: true,
-				valueRange: [16, 36],
+				valueRange: [18, 38],
 				labels: [ "Date", "Room_Temp", "ON/OFF"],
 			   axes: {
 				x: {
@@ -100,7 +100,7 @@ $(".date-input").on("changeDate", function(ev) {
 		var text_4 = roomText;
         $.get(text_1+text_2+text_3+text_4, function(data){
 			g = new Dygraph(document.getElementById("aeach_room"), "aeach_room.csv", {
-			   title: 'Daily Temperatures in Rooms vs ON/OFF',
+				title: '온도와 난방 ON/OFF',
 				ylabel: 'Temperature (C)',
 				legend: 'always',
 				showRangeSelector: true,

@@ -17,7 +17,12 @@ $stmt = $user_home->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
+$numSensors = 0;
+for ($x = 0; $x < 10; $x++) { 
+	if ($numSensors < $tbl_TempSet[$x][numSensor]){
+		$numSensors = $tbl_TempSet[$x][numSensor];
+	}
+}
 
 ?>
 <!DOCTYPE html>
@@ -30,9 +35,9 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   
 
-		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
-		<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>        
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>        
 
 
         <script type="text/javascript"> 
@@ -94,7 +99,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="home.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-md"><b>Io2</b>LIFE</span>
+      <span class="logo-md"><b>Io2</b>Life</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -127,8 +132,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <small>기기 번호 : <?php echo $row['mac']; ?></small>
                   <small>회원가입 since <?php echo $row['timestamp_value']; ?></small>
                 </p>
-              </li>
-
+              </li>	  
               <!-- Menu Footer-->
               <li class="user-footer">
 				<div class="box-body">
@@ -142,6 +146,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </ul>
       </div>
 
+	  
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
@@ -160,24 +165,6 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </a>
         </li>
         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i> 
-            <span>온도 그래프</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
-
-				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
-					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
-			
-			<?php } ?>
-          </ul>
-        </li>
-
-        <li class="treeview">
           <a href="tempsettings.php">
             <i class="fa fa-edit"></i> <span>온도 설정</span>
           </a>
@@ -187,6 +174,26 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <i class="fa fa-table"></i> <span>방 이름설정</span>
           </a>
         </li>
+		
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-pie-chart"></i> 
+            <span>온도 그래프</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+			<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
+
+				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
+					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
+			
+			<?php } ?>
+          </ul>
+        </li>
+		
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-share"></i> <span>실시간 온도</span>
@@ -195,7 +202,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </span>
           </a>
           <ul class="treeview-menu">
-			<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
+			<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo $tbl_TempSet[$x][roomName]; ?>의 실시간 온도</a></li>
@@ -217,7 +224,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
+        요약 정보
         <small>기기 번호  <?php echo $row['mac']; ?></small>
       </h1>
     </section>
@@ -227,7 +234,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <!-- Info boxes -->
 		<div class="row">
 
-<?php for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) { ?>
+<?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
 
 			<div class="col-lg-3 col-xs-6">
 			  <!-- small box -->
@@ -255,7 +262,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				
 				<a href="tempsettings.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i>
 					<br>
-								  <span class="info-box-text">설정된 온도</span>
+								  <span class="info-box-text">현재 설정된 온도</span>
 
 					<span class="info-box-number"><?php echo $tbl_TempSet[$x][L_temp]; ?><small>°C</small></span>
 				</a>
@@ -562,6 +569,6 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<!--<script src="dist/js/demo.js"></script>-->
 </body>
 </html>

@@ -83,7 +83,7 @@ echo $roomParamG;
     <a href="home.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-md"><b>Io2</b>LIFE</span>
+      <span class="logo-md"><b>Io2</b>Life</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->

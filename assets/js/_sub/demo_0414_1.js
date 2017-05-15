@@ -1,9 +1,3 @@
-Highcharts.setOptions({
-    global: {
-        timezoneOffset: -8.5 * 60
-    }
-});
-
 var options,
 	seriesOptions = [];
 
@@ -44,7 +38,7 @@ var options,
 				},
 				{
 				title: {
-					text: 'Temperature ( °C)'
+					text: 'INPUT Status'
 				},
 					min: 10,
 					max: 40,
@@ -123,7 +117,6 @@ var options,
 	});
 
 
-/*
 var date = new Date();
 date.setDate(date.getDate());
    $('#datepicker').ready(function() {
@@ -134,13 +127,11 @@ date.setDate(date.getDate());
 		format: 'yyyy-mm-dd',
 		todayHighlight: true 
 	}) 
-	.on('changeDate', function() {
+	.on('changeDate', function(ev) {
 		var datumy = $('#datepicker').val().replace(/\//g,'-');
 		alert(datumy);
 		$(this).datepicker('hide');
 
-		
-
 		//$.getJSON('./data_4_n.php?dateParam='+dateText, function(data){
 		$.getJSON('./data_4_n.php?dateParam='+datumy, function(data){
 			for( i=0; i<((data[0]['num_sensors'])-1); i++) {
@@ -154,48 +145,20 @@ date.setDate(date.getDate());
 			chart = new Highcharts.Chart(options);
 		});
 
-		
+/*
+		$('#datumpick').slideUp(100);
+		alert
+		   $.ajax({
+				   url: 'http://test.org/example.php',
+				   data: {druh: '30', vyberdatapicker: datumy},
+				   type: "POST",
+				   success: function(data){$('#result').html(data);}
+			});
+*/
   });
 
 });
-*/
-
-
-//working
-$(".date-input").datepicker({
-    // options
-		format: 'yyyy-mm-dd',
-		todayHighlight: true
-});	
-
-
-$(".date-input").on("changeDate", function(ev) {
-    //var id = $(this).attr("id");
-    //var val = $("label[for='" + id + "']").text();
-    //$("#msg").text(val + " changed");
-		var datumy = $('.date-input').val().replace(/\//g,'-');
-		//var datumy = new Date(ev);
-		$(this).datepicker('hide');
-		alert(datumy);
-
-
-		//$.getJSON('./data_4_n.php?dateParam='+dateText, function(data){
-		$.getJSON('./data_4_n.php?dateParam='+datumy, function(data){
-			for( i=0; i<((data[0]['num_sensors'])-1); i++) {
-				seriesOptions[i] = {
-									name: name,
-									data: data
-				};
-				seriesOptions[i].name = data[i]['name'];
-				seriesOptions[i].data = data[i]['data'];
-			}
-			chart = new Highcharts.Chart(options);
-		});
-
-		
-});
-
-
+	
 /*	
 //$(".date-picker").datepicker();
 $(".date-input").datepicker();
@@ -315,7 +278,7 @@ $(document).ready(function() {
 			}],
 			tooltip: {
 				headerFormat: '<b>{series.name}</b><br>',
-				pointFormat: '({point.x:%b %d %H:%M:%S})-> {point.y:.2f} °C'
+				pointFormat: '({point.x:%d %b %H:%M:%S})-> {point.y:.2f} °C'
 			},
 
 			plotOptions: {
@@ -353,46 +316,7 @@ $(document).ready(function() {
 
 });
 
-//working
-$(".date-input2").datepicker({
-    // options
-		format: 'yyyy-mm-dd',
-		todayHighlight: true
-});	
-
-$(".date-input2").on("changeDate", function(ev) {
-    //var id = $(this).attr("id");
-    //var val = $("label[for='" + id + "']").text();
-    //$("#msg").text(val + " changed");
-		var datumy = $('.date-input2').val().replace(/\//g,'-');
-		//var datumy = new Date(ev);
-		$(this).datepicker('hide');
-		alert(datumy);
-
-
-		//$.getJSON('./data_4_n.php?dateParam='+dateText, function(data){
-				$.getJSON('./data_4_room.php?dateParam='+datumy, function(data){
-					for( i=0; i<((data[0]['num_sensors'])); i++) {
-						seriesOptions_3[i] = {
-											//yAxis: name,
-											name: name,
-											data: data
-						};
-						if(i+1 < (data[0]['num_sensors'])){
-							seriesOptions_3[i].yAxis = 1;
-						}
-							seriesOptions_3[i].name = data[i]['name'];
-							seriesOptions_3[i].data = data[i]['data'];
-					}
-					chart = new Highcharts.Chart(options_room_all);
-				});
-
-		
-});
-
-
-/*
-//original
+//]]> 
     $(function() {
 	    $( "#datepicker_3" ).datepicker({
 			dateFormat: "yy-mm-dd",
@@ -419,5 +343,5 @@ $(".date-input2").on("changeDate", function(ev) {
 	      }
 	    });
   	});
-*/
+
 
