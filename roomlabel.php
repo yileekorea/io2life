@@ -1,22 +1,28 @@
 <?php
 session_start();
 require_once 'class.user.php';
-$temp_set = new USER();
-
-if(!$temp_set->is_logged_in())
+$room_label = new USER();
+if(!$room_label->is_logged_in())
 {
-	$temp_set->redirect('index.php');
+	$room_label->redirect('index.php');
 }
+
 $tbl='tbl_users';
-$stmt = $temp_set->runQuery("SELECT * FROM $tbl WHERE userID=:uid");
+$stmt = $room_label->runQuery("SELECT * FROM $tbl WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 //echo $row['tbl_TempSet'];
 //echo $row['mac'];
 
+$tbl = $row['tbl_RoomTemp'];
+$stmt = $room_label->runQuery("SELECT timestamp_value, current_temps, accCount FROM $tbl WHERE id=1 order by timestamp_value desc limit 1");
+$stmt->execute();
+$tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$acc_Count = $tbl_TempSet[0][accCount];
+
 /*
 $tbl = $row['tbl_TempSet'];
-$stmt = $temp_set->runQuery("SELECT * FROM $tbl");
+$stmt = $room_label->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 
 $tbl_TempSet = array();
@@ -26,7 +32,7 @@ while ($_TempSet = $stmt->fetch(PDO::FETCH_ASSOC)){
 }
 */
 $tbl = $row['tbl_TempSet'];
-$stmt = $temp_set->runQuery("SELECT * FROM $tbl");
+$stmt = $room_label->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $numSensors = $tbl_TempSet[0][numSensor];
@@ -277,7 +283,8 @@ function basic(obj)
     <section class="content-header">
       <h1>
         각방 이름설정
-        <small>기기 번호  <?php echo $row['mac']; ?></small>
+		<small> <b><?php echo " 현재 계량값 : "; echo $acc_Count; echo " m³"; ?></b> </small>
+        <small class="pull-right">기기 번호  <?php echo $row['mac']; ?></small>
       </h1>
     </section>
 

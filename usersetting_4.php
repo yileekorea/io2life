@@ -123,12 +123,20 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //echo $tbl_TempSet[0][roomName];
 if(isset($_POST['save']))
 {
+$inter_temp_slide = $_POST['inter_temp_slide'];
+$acc_Count_value = $_POST['acc_Count'];
 $Ltemp_array = array();
 $Label_t="{\"mac\":\"";
 $Label_t = $Label_t.$mac;
 $Label_t = $Label_t."\",";
 $Label_t = $Label_t."\"nS\":";
 $Label_t = $Label_t.$tbl_TempSet[0][numSensor];
+$Label_t = $Label_t.",";
+$Label_t = $Label_t."\"i_Timer\":";
+$Label_t = $Label_t.$inter_temp_slide;
+$Label_t = $Label_t.",";
+$Label_t = $Label_t."\"acc_Count\":";
+$Label_t = $Label_t.$acc_Count_value;
 $Label_t = $Label_t.",";
 
 	for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) {
@@ -159,6 +167,7 @@ $Label_t = $Label_t.",";
 //echo "<script>alert(\"Temperature settings SAVED!\");</script>";
 //echo ("<script language=javascript> getName( $Label_t );</script>");
 
+
 //$user_setting->redirect('tempsettings.php');
 }
 
@@ -180,7 +189,7 @@ else if(isset($_POST['save_rName']))
 	}
 //echo "<script>alert(\"All Room Name are SAVED!\");</script>";
 //$user_setting->redirect('tempsettings.php');
-
+//historyBack();
 }
 
 
@@ -208,7 +217,7 @@ else if(isset($_POST['save_rName']))
 										<button TYPE="button" 
 										ONCLICK='getName(<?php echo $Label_t; ?>); 
 											<?php
-											for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) {
+											for ($x = 0; $x < ($tbl_TempSet[0][numSensor]-1); $x++) {
 												// DB에 데이터 입력
 												$LtempLabel="eachTemp";
 												//$LtempLabel=(String)$tbl_TempSet[$x][roomName];
@@ -218,10 +227,9 @@ else if(isset($_POST['save_rName']))
 												$Ltemp_array[$x] = (float)$_POST[$LtempLabel];
 												//echo $Ltemp_array[$x];
 
-												$stmt = $user_setting->runQuery("UPDATE $tbl SET L_temp = '$Ltemp_array[$x]', H_temp = '$Ltemp_array[$x]' where id=($x+1) ");
+												$stmt = $user_setting->runQuery("UPDATE $tbl SET L_temp = '$Ltemp_array[$x]', H_temp = '$Ltemp_array[$x]', interOFFtimer = '$inter_temp_slide' where id=($x+1) ");
 												$stmt->execute();
-											}
-											?>
+											} ?>
 											historyBack();' class="btn">적용하고 이전으로...</button>
 									<?php } else { ?>
 										<button TYPE="button" ONCLICK='historyBack();' class="btn">적용되었습니다. 이전 페이지로!</button>		

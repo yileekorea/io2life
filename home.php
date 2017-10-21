@@ -7,22 +7,38 @@ if(!$user_home->is_logged_in())
 {
 	$user_home->redirect('index.php');
 }
+else {
+$now = time(); // Checking the time now when home page starts.
+
+	if ($now > $_SESSION['expire']) {
+		$user_home->redirect('index.php');
+	}
+}
 
 $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$tbl = $row['tbl_RoomTemp'];
+$stmt = $user_home->runQuery("SELECT timestamp_value, current_temps, accCount FROM $tbl WHERE id=1 order by timestamp_value desc limit 1");
+$stmt->execute();
+$tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$acc_Count = $tbl_TempSet[0][accCount];
 
 $tbl = $row['tbl_TempSet'];
 $stmt = $user_home->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+/*
 $numSensors = 0;
 for ($x = 0; $x < 10; $x++) { 
 	if ($numSensors < $tbl_TempSet[$x][numSensor]){
 		$numSensors = $tbl_TempSet[$x][numSensor];
 	}
 }
+*/
+$numSensors = $tbl_TempSet[0][numSensor];
 
 ?>
 <!DOCTYPE html>
@@ -223,10 +239,27 @@ for ($x = 0; $x < 10; $x++) {
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        요약 정보
-        <small>기기 번호  <?php echo $row['mac']; ?></small>
-      </h1>
+		<!--<h1>
+			요약 정보 
+			<small> <b><?php echo " 현재 계량값 : "; echo $acc_Count; echo " m³"; ?></b> </small>
+			<small class="pull-right">기기 번호  <?php echo $row['mac']; ?></small>
+		</h1>-->
+		<h3>유량
+			<span class="label label-primary"><?php echo $acc_Count; echo " m³"; ?></span>
+			<small class="pull-right">기기번호<?php echo $row['mac']; ?></small>
+		</h3>
+
+<!--
+<ul class="nav nav-pills">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Profile</a></li>
+    <li class="active"><a href="#">현재 계량값 : <span class="badge"><?php echo $acc_Count; echo " m³"; ?></span></a></li>
+    
+    <li><a href="#">기기 번호  <span class="badge"><?php echo $row['mac']; ?></span></a></li>
+</ul>
+<h3>현재 사용량 : <span class="label label-primary"><?php echo $acc_Count; echo " m³"; ?></span></h3>
+<h2>현재 사용량 : <span class="label label-primary"><?php echo $acc_Count; echo " m³"; ?></span></h2>
+-->
     </section>
 
     <!-- Main content -->
@@ -570,5 +603,6 @@ for ($x = 0; $x < 10; $x++) {
 
 <!-- AdminLTE for demo purposes -->
 <!--<script src="dist/js/demo.js"></script>-->
+
 </body>
 </html>

@@ -14,6 +14,12 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 //echo $row['tbl_TempSet'];
 //echo $row['mac'];
 
+$tbl = $row['tbl_RoomTemp'];
+$stmt = $temp_set->runQuery("SELECT timestamp_value, current_temps, accCount FROM $tbl WHERE id=1 order by timestamp_value desc limit 1");
+$stmt->execute();
+$tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$acc_Count = $tbl_TempSet[0][accCount];
+
 /*
 $tbl = $row['tbl_TempSet'];
 $stmt = $temp_set->runQuery("SELECT * FROM $tbl");
@@ -36,6 +42,8 @@ for ($x = 0; $x < 10; $x++) {
 	}
 }
 
+$interOFFtimer = $tbl_TempSet[0][interOFFtimer];
+
 /*
 $returned_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach($returned_results as $key=>$result) {
@@ -43,6 +51,8 @@ foreach($returned_results as $key=>$result) {
      var_dump($result);
 }
 */
+
+
 ?>
 
 <SCRIPT LANGUAGE="JavaScript">
@@ -189,6 +199,9 @@ function basic(obj)
   <!-- jvectormap 
   <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   -->
+  <!-- bootstrap slider -->
+  <link rel="stylesheet" href="plugins/bootstrap-slider/slider.css">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -346,10 +359,44 @@ function basic(obj)
       </h1>
     </section>
 
+	
     <!-- Main content -->
     <section class="content">
       <!-- Info boxes -->
 	<form id="save" action = "usersetting_4.php" method = "POST" name="save">
+	<div class="row">
+		<div class="col-sm-6">
+			<p>
+				<div class="box-header with-border">
+					<h3 class="box-title"><b><?php echo " 현재 계량값 : "; echo $acc_Count; echo " m³"; ?></b></h3><br></br>
+					<?php echo "<h4> 새로운 계량값을 입력 하세요... "; echo "단위는 m³ 입니다."; echo "</h4>"; ?>
+				</div>
+			  <input id="acc_Count" name="acc_Count" type="text" value="<?php echo $acc_Count;?>" class="form-control" placeholder="Enter ...">
+			<p>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<p>
+			<p>
+			<h3><span class="label label-Default" id="ex6CurrentSliderValLabel">현재 순환 주기 : <span id="ex6SliderVal"><?php echo $interOFFtimer; ?></span> min</span></h3>
+			<br>
+			<input id="inter_temp_slide" name="inter_temp_slide" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="61" data-slider-step="1" data-slider-value="<?php echo $interOFFtimer;?>" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red"> 
+			<br>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				  <div class="btn-group" role="group">
+					<button id="save" 
+					name ="save" type=submit class="btn btn-default"><i class="fa fa-floppy-o"></i>  설정 저장</button>
+				  </div>
+			</div>
+		</div>
+	</div>
+
 <?php $Label_t="{"; ?>
 <?php for ($x = 0; $x < ($numSensors-1); $x++) { ?>
     <!-- Main content -->
@@ -493,5 +540,87 @@ onclick='doit(
 
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+<!-- Bootstrap slider -->
+<script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
+<script>
+
+
+$("#inter_temp_slide").on("slide", function(slideEvt) {
+	$("#ex6SliderVal").text(slideEvt.value);
+
+});
+$("#inter_temp_slide").on("slideStart", function(slideEvt) {
+	$("#ex6SliderVal").text(slideEvt.value);
+
+});
+
+
+
+  $(function () {
+    /* BOOTSTRAP SLIDER */
+    $('.slider').slider();
+
+    /* ION SLIDER */
+    $("#range_1").ionRangeSlider({
+      min: 0,
+      max: 5000,
+      from: 1000,
+      to: 4000,
+      type: 'double',
+      step: 1,
+      prefix: "$",
+      prettify: false,
+      hasGrid: true,
+	  tooltip: 'always'
+    });
+    $("#range_2").ionRangeSlider();
+
+    $("#range_5").ionRangeSlider({
+      min: 0,
+      max: 10,
+      type: 'single',
+      step: 0.1,
+      postfix: " mm",
+      prettify: false,
+      hasGrid: true
+    });
+    $("#range_6").ionRangeSlider({
+      min: -50,
+      max: 50,
+      from: 0,
+      type: 'single',
+      step: 1,
+      postfix: "°",
+      prettify: false,
+      hasGrid: true
+    });
+
+    $("#range_4").ionRangeSlider({
+      type: "single",
+      step: 100,
+      postfix: " light years",
+      from: 55000,
+      hideMinMax: true,
+      hideFromTo: false
+    });
+    $("#range_3").ionRangeSlider({
+      type: "double",
+      postfix: " miles",
+      step: 10000,
+      from: 25000000,
+      to: 35000000,
+      onChange: function (obj) {
+        var t = "";
+        for (var prop in obj) {
+          t += prop + ": " + obj[prop] + "\r\n";
+        }
+        $("#result").html(t);
+      },
+      onLoad: function (obj) {
+        //
+      }
+    });
+  });
+</script>
 </body>
 </html>

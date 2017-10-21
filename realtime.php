@@ -1,19 +1,25 @@
 <?php
 session_start();
 require_once 'class.user.php';
-$user_home = new USER();
+$real_time = new USER();
 
-if(!$user_home->is_logged_in())
+if(!$real_time->is_logged_in())
 {
-	$user_home->redirect('index.php');
+	$real_time->redirect('index.php');
 }
 
-$stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
+$stmt = $real_time->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$tbl = $row['tbl_RoomTemp'];
+$stmt = $real_time->runQuery("SELECT timestamp_value, current_temps, accCount FROM $tbl WHERE id=1 order by timestamp_value desc limit 1");
+$stmt->execute();
+$tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$acc_Count = $tbl_TempSet[0][accCount];
+
 $tbl = $row['tbl_TempSet'];
-$stmt = $user_home->runQuery("SELECT * FROM $tbl");
+$stmt = $real_time->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -206,7 +212,8 @@ $room_x = $_GET["roomParam"];
     <section class="content-header">
       <h1>
         실시간 온도
-        <small>기기 번호  <?php echo $row['mac']; ?></small>
+		<small> <b><?php echo " 현재 계량값 : "; echo $acc_Count; echo " m³"; ?></b> </small>
+        <small class="pull-right">기기 번호  <?php echo $row['mac']; ?></small>
       </h1>
     </section>
 

@@ -47,6 +47,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 									  `H_temp` float(4) DEFAULT NULL,
 									  `roomStatus` float(4) DEFAULT NULL,
 									  `timestamp_value` datetime DEFAULT NULL,
+									  `interOFFtimer` int(4) DEFAULT 30,
 									  index idx1(id, numSensor, roomStatus, timestamp_value)
 									) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 									");
@@ -66,8 +67,9 @@ if(isset($_GET['id']) && isset($_GET['code']))
 									  `id` INT UNSIGNED NOT NULL,
 									  `timestamp_value` datetime DEFAULT NULL,
 									  `current_temps` float(4) DEFAULT NULL,
-									  `sensor_name` VARCHAR(40) DEFAULT NULL,
-									  `current_status` float(4) DEFAULT NULL,
+									  `sensor_name` VARCHAR(16) DEFAULT NULL,
+									  `current_status` VARCHAR(4) DEFAULT NULL,
+									  `accCount` double DEFAULT NULL,
 									  index idx2(id, timestamp_value, current_temps, sensor_name, current_status)
 									) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 									");

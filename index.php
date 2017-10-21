@@ -1,12 +1,44 @@
 <?php
+// server should keep session data for AT LEAST 1 hour
+ini_set('session.gc_maxlifetime', (30*24*60*60));
+
+// each client should remember their session id for EXACTLY 30days
+session_set_cookie_params(30*24*60*60);
+
 session_start();
+
 require_once 'class.user.php';
+
 $user_login = new USER();
 
-if($user_login->is_logged_in()!="")
+
+$cookie = isset($_COOKIE['MzRemember']) ? $_COOKIE['MzRemember'] : '';
+if (($cookie) && ($user_login->is_logged_in()!="")) {
+	list ($email, $token, $mac) = explode(':', $cookie);
+	if (!hash_equals(hash_hmac('sha256', $email . ':' . $token, '1@3$5^7*'), $mac)) {
+		return false;
+	}
+	$usertoken = 'f0411fa6fef2c594057d5904b1624e0d';
+	if (hash_equals($usertoken, $token)) {
+		$_SESSION['start'] = time(); // Taking now logged in time.
+		// Ending a session in 30 minutes from the starting time.
+		$_SESSION['expire'] = $_SESSION['start'] + (30 * 24 * 60 * 60);	//In days : (n * 24 * 60 * 60 ) n = no of days 
+
+		$user_login->redirect('home.php');
+	}
+}
+
+/*
+if(($user_login->is_logged_in()!="") && isset($_COOKIE['MzRemember']))
 {
+
+	$_SESSION['start'] = time(); // Taking now logged in time.
+	// Ending a session in 30 minutes from the starting time.
+	$_SESSION['expire'] = $_SESSION['start'] + (30 * 24 * 60 * 60);	//In days : (n * 24 * 60 * 60 ) n = no of days 
+
 	$user_login->redirect('home.php');
 }
+*/
 
 if(isset($_POST['btn-login']))
 {
@@ -15,6 +47,15 @@ if(isset($_POST['btn-login']))
 	
 	if($user_login->login($email,$upass))
 	{
+
+		$token = 'f0411fa6fef2c594057d5904b1624e0d';
+		//$token = mcrypt_create_iv(); // generate a token, should be 128 - 256 bit
+		$cookie = $email . ':' . $token;
+		$mac = hash_hmac('sha256', $cookie, '1@3$5^7*');
+		$cookie .= ':' . $mac;
+		setcookie('MzRemember', $cookie);
+
+//		setcookie('MzRemember',$_POST['rememberMe']);
 		$user_login->redirect('home.php');
 	}
 }
@@ -105,7 +146,10 @@ if(isset($_POST['btn-login']))
 			                        <div class="form-group">
 			                        	<label class="sr-only" for="form-password">Password</label>
 			                        	<input type="password" name="txtupass" placeholder="비밀번호..." class="form-password form-control" id="txtupass" required />
-			                        </div>
+					<label>
+						<input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" />
+						&nbsp;Remember me
+					</label>		</div>
 			                        <button type="submit" class="btn" name="btn-login">로그인!</button>
 									<br></br>
 									처음 오셨어요? <a href="signup.php"><b>여기서 가입</b></a>

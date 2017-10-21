@@ -79,13 +79,14 @@ CREATE TABLE IF NOT EXISTS `tTempSet_6001940C2E4E` (
 //+----+---------------------+---------------+-----------------+----------------+
 //|  0 | 2017-01-28 22:21:49 |          27.4 | 28-051621306fff | 1              |
 //+----+---------------------+---------------+-----------------+----------------+
-DROP TABLE IF EXISTS `tRoomTemp_5CCF7F23D7F8`;
-CREATE TABLE `tRoomTemp_5CCF7F23D7F8` (
+DROP TABLE IF EXISTS `tRoomTemp_600194069635`;
+CREATE TABLE `tRoomTemp_600194069635` (
   `id` INT UNSIGNED NOT NULL,
   `timestamp_value` datetime DEFAULT NULL,
   `current_temps` float(4) DEFAULT NULL,
-  `sensor_name` VARCHAR(40) DEFAULT NULL,
-  `current_status` float(4) DEFAULT NULL,
+  `sensor_name` VARCHAR(16) DEFAULT NULL,
+  `current_status` VARCHAR(4) DEFAULT NULL,
+  `accCount` double DEFAULT NULL,
   index idx2(id, timestamp_value, current_temps, sensor_name, current_status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
