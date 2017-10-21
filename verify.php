@@ -11,10 +11,10 @@ if(isset($_GET['id']) && isset($_GET['code']))
 {
 	$id = base64_decode($_GET['id']);
 	$code = $_GET['code'];
-	
+
 	$statusY = "Y";
 	$statusN = "N";
-	
+
 	$stmt = $user->runQuery("SELECT mac,userID,userStatus FROM tbl_users WHERE userID=:uID AND tokenCode=:code LIMIT 1");
 	$stmt->execute(array(":uID"=>$id,":code"=>$code));
 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 	//echo $tbl_TempSet;
 	$tbl_RTemp = "tRoomTemp_" . $row['mac'];
 	//echo $tbl_RTemp;
-	
+
 	if($stmt->rowCount() > 0)
 	{
 		if($row['userStatus']==$statusN)
@@ -48,6 +48,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 									  `roomStatus` float(4) DEFAULT NULL,
 									  `timestamp_value` datetime DEFAULT NULL,
 									  `interOFFtimer` int(4) DEFAULT 30,
+										`heatingON_OFF` int(4) DEFAULT 0,
 									  index idx1(id, numSensor, roomStatus, timestamp_value)
 									) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 									");
@@ -55,12 +56,12 @@ if(isset($_GET['id']) && isset($_GET['code']))
 
 			for ($x = 1; $x < (11); $x++) {
 			$stmt = $user->runQuery("INSERT INTO `$tbl_TempSet` (
-									  `id`, `numSensor`, `roomName`,`L_temp`,`C_temp`,`H_temp`,`roomStatus`,`timestamp_value`) 
+									  `id`, `numSensor`, `roomName`,`L_temp`,`C_temp`,`H_temp`,`roomStatus`,`timestamp_value`)
 										VALUE ($x, 0, 'RoomName', 25, 25, 25, 0, now());
 									");
 			$stmt->execute();
 			}
-			
+
 			$stmt = $user->runQuery("DROP TABLE IF EXISTS `$tbl_RTemp`");
 			$stmt->execute();
 			$stmt = $user->runQuery("CREATE TABLE IF NOT EXISTS `$tbl_RTemp` (
@@ -80,7 +81,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 				   <button class='close' data-dismiss='alert'>&times;</button>
 				   <h3><strong>등록해 주셔서 감사합니다 !</strong><br>  등록하신 계정은 이제 사용가능합니다! <br><br><a href='index.php'>여기서 로그인...</a><h3>
 			       </div>
-			       ";	
+			       ";
 		}
 		else
 		{
@@ -116,7 +117,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="assets/styles.css" rel="stylesheet" media="screen">
 	-->
-	
+
 	        <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -135,15 +136,15 @@ if(isset($_GET['id']) && isset($_GET['code']))
 				<div class="container">    <div class="container">
 
 				<?php if(isset($msg)) { echo $msg; } ?>
-		
+
 				</div> <!-- /container -->
 			</div>
 		</div>
-		
+
     <script src="vendors/jquery-1.9.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/js/jquery.backstretch.min.js"></script>
 	<script src="assets/js/scripts.js"></script>
-	
+
   </body>
 </html>

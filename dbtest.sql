@@ -71,6 +71,8 @@ CREATE TABLE IF NOT EXISTS `tTempSet_6001940C2E4E` (
   `H_temp` float(4) DEFAULT NULL,
   `roomStatus` float(4) DEFAULT NULL,
   `timestamp_value` datetime DEFAULT NULL,
+  `interOFFtimer` int(4) DEFAULT 30,
+  `heatingON_OFF` int(4) DEFAULT 0,  
   index idx1(id, numSensor, roomStatus, timestamp_value)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -89,4 +91,3 @@ CREATE TABLE `tRoomTemp_600194069635` (
   `accCount` double DEFAULT NULL,
   index idx2(id, timestamp_value, current_temps, sensor_name, current_status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-

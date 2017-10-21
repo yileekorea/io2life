@@ -32,7 +32,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 /*
 $numSensors = 0;
-for ($x = 0; $x < 10; $x++) { 
+for ($x = 0; $x < 10; $x++) {
 	if ($numSensors < $tbl_TempSet[$x][numSensor]){
 		$numSensors = $tbl_TempSet[$x][numSensor];
 	}
@@ -49,35 +49,31 @@ $numSensors = $tbl_TempSet[0][numSensor];
   <title>Io2Life | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  
+
 
 		<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
-		<script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>        
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 
 
-        <script type="text/javascript"> 
-            
+        <script type="text/javascript">
+
             $(document).ready(function() {
-				$("#__datepicker").datepicker({
-					dateFormat: 'yy-mm-dd',
-					constrainInput: true
-				});
-				
-				$(".ui-datepicker-trigger").mouseover(function() {
-					$(this).css('cursor', 'pointer');
-				});
-            
-            });
-            
+							$("#__datepicker").datepicker({
+								dateFormat: 'yy-mm-dd',
+								constrainInput: true
+							});
 
-			
+							$(".ui-datepicker-trigger").mouseover(function() {
+								$(this).css('cursor', 'pointer');
+							});
+            });
         </script>
 
-  
 
-  
-  
+
+
+
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="A_bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -90,7 +86,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
   <link rel="stylesheet" href="./plugins/datepicker/datepicker3.css">
   <!-- iCheck for checkboxes and radio inputs -->
 
-  <!-- jvectormap 
+  <!-- jvectormap
   <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   -->
   <!-- Theme style -->
@@ -124,7 +120,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
       <a href="#" class="sidebar-toggle col-xs-3" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-	  
+
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -148,7 +144,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
                   <small>기기 번호 : <?php echo $row['mac']; ?></small>
                   <small>회원가입 since <?php echo $row['timestamp_value']; ?></small>
                 </p>
-              </li>	  
+              </li>
               <!-- Menu Footer-->
               <li class="user-footer">
 				<div class="box-body">
@@ -162,7 +158,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
         </ul>
       </div>
 
-	  
+
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
@@ -190,10 +186,10 @@ $numSensors = $tbl_TempSet[0][numSensor];
             <i class="fa fa-table"></i> <span>방 이름설정</span>
           </a>
         </li>
-		
+
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-pie-chart"></i> 
+            <i class="fa fa-pie-chart"></i>
             <span>온도 그래프</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -204,11 +200,11 @@ $numSensors = $tbl_TempSet[0][numSensor];
 
 				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
-			
+
 			<?php } ?>
           </ul>
         </li>
-		
+
 
         <li class="treeview">
           <a href="#">
@@ -222,7 +218,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo $tbl_TempSet[$x][roomName]; ?>의 실시간 온도</a></li>
-			
+
 			<?php } ?>
 
           </ul>
@@ -240,7 +236,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
     <!-- Content Header (Page header) -->
     <section class="content-header">
 		<!--<h1>
-			요약 정보 
+			요약 정보
 			<small> <b><?php echo " 현재 계량값 : "; echo $acc_Count; echo " m³"; ?></b> </small>
 			<small class="pull-right">기기 번호  <?php echo $row['mac']; ?></small>
 		</h1>-->
@@ -254,7 +250,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
     <li><a href="#">Home</a></li>
     <li><a href="#">Profile</a></li>
     <li class="active"><a href="#">현재 계량값 : <span class="badge"><?php echo $acc_Count; echo " m³"; ?></span></a></li>
-    
+
     <li><a href="#">기기 번호  <span class="badge"><?php echo $row['mac']; ?></span></a></li>
 </ul>
 <h3>현재 사용량 : <span class="label label-primary"><?php echo $acc_Count; echo " m³"; ?></span></h3>
@@ -271,13 +267,13 @@ $numSensors = $tbl_TempSet[0][numSensor];
 
 			<div class="col-lg-3 col-xs-6">
 			  <!-- small box -->
-				<?php 
-				
+				<?php
+
 				$R_I_O_BG = 0;
 				$RroomStatusIO = $tbl_TempSet[$x][roomStatus];
 				//echo $RstatusIO;
 				if( $RroomStatusIO == 0 ){
-					$R_I_O_BG = "small-box bg-aqua";        
+					$R_I_O_BG = "small-box bg-aqua";
 				}else{
 					$R_I_O_BG = "small-box bg-red";
 				}
@@ -288,11 +284,11 @@ $numSensors = $tbl_TempSet[0][numSensor];
 				  <h3><?php echo $tbl_TempSet[$x][C_temp]; ?><small><font color=white> °C</font></small></h3>
 					  <?php echo $tbl_TempSet[$x][timestamp_value]; ?>
 				</div>
-				
+
 				<div class="icon">
-				  <i class="fa fa-fire"></i>			  
+				  <i class="fa fa-fire"></i>
 				</div>
-				
+
 				<a href="tempsettings.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i>
 					<br>
 								  <span class="info-box-text">현재 설정된 온도</span>
@@ -315,7 +311,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
 				<div class="icon">
 				  <i class="fa fa-angle-double-left"></i>
 				</div>
-				
+
 				<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i>
 					<br>
 								  <span class="info-box-text">통상 공급 온도</span>
@@ -330,9 +326,9 @@ $numSensors = $tbl_TempSet[0][numSensor];
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->
-		<!-- Graph boxes -->	  
-		<!-- Graph boxes -->	  
-		<!-- Graph boxes -->	  
+		<!-- Graph boxes -->
+		<!-- Graph boxes -->
+		<!-- Graph boxes -->
 		<!-- Graph boxes -->
 
 
@@ -374,7 +370,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
                 </label>
                 <input type="text" class="form-control date-input" data-date-format="yyyy-mm-dd" id="date-fld1" />
             </div>
-            
+
             <div class="form-group input-group">
                 <label class="input-group-btn" for="date-fld2">
                     <span class="btn btn-default" type="button">
@@ -383,7 +379,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
                 </label>
                 <input type="text" class="form-control date-input" data-date-format="yyyy-mm-dd" id="date-fld2" />
             </div>
-			
+
         </div>
     </div>
 </div>
@@ -391,7 +387,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
 
 <!--
 <div class="date-form">
-    
+
 <div class="form-horizontal">
     <div class="control-group">
         <label for="date-picker-1" class="control-label">A <i class="fa fa-calendar"> </i>
@@ -426,7 +422,7 @@ $numSensors = $tbl_TempSet[0][numSensor];
         </div>
     </div>
 </div>
-    
+
     <hr />
 <div>
     <span id="msg" ></span>
@@ -577,14 +573,14 @@ $numSensors = $tbl_TempSet[0][numSensor];
 <script src="plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-<!-- Sparkline 
+<!-- Sparkline
 <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
 -->
-<!-- jvectormap 
+<!-- jvectormap
 <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 -->
-<!-- SlimScroll 1.3.0 
+<!-- SlimScroll 1.3.0
 <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
 -->
 <!-- ChartJS 1.0.1 -->
