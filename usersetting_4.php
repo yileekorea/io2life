@@ -58,7 +58,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		var ws;
         var wsUri = "ws:";
         var loc = window.location;
-		var mac = "<?php echo($mac); ?>";
+				var mac = "<?php echo($mac); ?>";
 		//alert('<?=$mac?>');
 		//alert(mac);
         console.log(loc);
@@ -68,7 +68,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
         //wsUri += "//" + loc.host + loc.pathname.replace("simple","ws/simple");
 		//wsUri += "//iot2better.iptime.org:4443/ws/" + mac;
 		wsUri += "//io2better.net:4443/ws/io2life";
-		
+
 
         function wsConnect() {
             console.log("connect",wsUri);
@@ -101,7 +101,7 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		function historyBack() {
 			history.back();
 		}
-		
+
         function doit(m) {
             if (ws) { ws.send(m); }
         }
@@ -112,9 +112,9 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (ws) { ws.send(JSON.stringify(Label_t)); }
 			//historyBack();
 		}
-		
+
 		</script>
-		
+
     </head>
 
 
@@ -125,6 +125,7 @@ if(isset($_POST['save']))
 {
 $inter_temp_slide = $_POST['inter_temp_slide'];
 $acc_Count_value = $_POST['acc_Count'];
+//$heatingON_OFF_slide = $_POST['heatingON_OFF_slide'];
 $Ltemp_array = array();
 $Label_t="{\"mac\":\"";
 $Label_t = $Label_t.$mac;
@@ -138,6 +139,10 @@ $Label_t = $Label_t.",";
 $Label_t = $Label_t."\"acc_Count\":";
 $Label_t = $Label_t.$acc_Count_value;
 $Label_t = $Label_t.",";
+//$Label_t = $Label_t."\"hOF\":";
+//$Label_t = $Label_t.$heatingON_OFF_slide;
+//$Label_t = $Label_t.",";
+
 
 	for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) {
 	// DB에 데이터 입력
@@ -151,10 +156,10 @@ $Label_t = $Label_t.",";
 
 		//$stmt = $user_setting->runQuery("UPDATE $tbl SET L_temp = '$Ltemp_array[$x]', H_temp = '$Ltemp_array[$x]' where id=($x+1) ");
 		//$stmt->execute();
-		
+
 		$ws_LtempLabel[$x] = "\"L_Temp".(String)($x+1)."\":".$Ltemp_array[$x];
 		$Label_t = $Label_t.$ws_LtempLabel[$x];
-		if ($x < ($tbl_TempSet[$x][numSensor]-2)) 
+		if ($x < ($tbl_TempSet[$x][numSensor]-2))
 			$Label_t = $Label_t.",";
 		else
 			$Label_t = $Label_t."}";
@@ -185,7 +190,7 @@ else if(isset($_POST['save_rName']))
 
 		$stmt = $user_setting->runQuery("UPDATE $tbl SET roomName = '$Ltemp_array[$x]' where id=($x+1) ");
 		$stmt->execute();
-		
+
 	}
 //echo "<script>alert(\"All Room Name are SAVED!\");</script>";
 //$user_setting->redirect('tempsettings.php');
@@ -196,7 +201,7 @@ else if(isset($_POST['save_rName']))
 ?>
         <!-- Top content -->
         <div class="top-content">
-        	
+
             <div class="inner-bg">
                 <div class="container">
 
@@ -214,8 +219,8 @@ else if(isset($_POST['save_rName']))
 									<h2 id="header">Click</h2>
 
 									<?php if(isset($_POST['save'])) { ?>
-										<button TYPE="button" 
-										ONCLICK='getName(<?php echo $Label_t; ?>); 
+										<button TYPE="button"
+										ONCLICK='getName(<?php echo $Label_t; ?>);
 											<?php
 											for ($x = 0; $x < ($tbl_TempSet[0][numSensor]-1); $x++) {
 												// DB에 데이터 입력
@@ -227,13 +232,15 @@ else if(isset($_POST['save_rName']))
 												$Ltemp_array[$x] = (float)$_POST[$LtempLabel];
 												//echo $Ltemp_array[$x];
 
+												//$stmt = $user_setting->runQuery("UPDATE $tbl SET L_temp = '$Ltemp_array[$x]', H_temp = '$Ltemp_array[$x]', interOFFtimer = '$inter_temp_slide', heatingON_OFF = '$heatingON_OFF_slide' where id=($x+1) ");
 												$stmt = $user_setting->runQuery("UPDATE $tbl SET L_temp = '$Ltemp_array[$x]', H_temp = '$Ltemp_array[$x]', interOFFtimer = '$inter_temp_slide' where id=($x+1) ");
+
 												$stmt->execute();
 											} ?>
 											historyBack();' class="btn">적용하고 이전으로...</button>
 									<?php } else { ?>
-										<button TYPE="button" ONCLICK='historyBack();' class="btn">적용되었습니다. 이전 페이지로!</button>		
-									<?php } ?>		
+										<button TYPE="button" ONCLICK='historyBack();' class="btn">적용되었습니다. 이전 페이지로!</button>
+									<?php } ?>
 									<br></br>
 			                    </form>
 		                    </div>
@@ -241,7 +248,7 @@ else if(isset($_POST['save_rName']))
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
 
@@ -250,7 +257,7 @@ else if(isset($_POST['save_rName']))
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.backstretch.min.js"></script>
         <!--<script src="assets/js/scripts.js"></script>-->
-        
+
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->

@@ -28,7 +28,7 @@ $stmt->execute();
 $tbl_TempSet = array();
 while ($_TempSet = $stmt->fetch(PDO::FETCH_ASSOC)){
 	$tbl_TempSet['roomName'][] = $_TempSet['roomName'];
-	//echo $_TempSet['roomName'];	
+	//echo $_TempSet['roomName'];
 }
 */
 $tbl = $row['tbl_TempSet'];
@@ -36,13 +36,15 @@ $stmt = $temp_set->runQuery("SELECT * FROM $tbl");
 $stmt->execute();
 $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $numSensors = 0;
-for ($x = 0; $x < 10; $x++) { 
+for ($x = 0; $x < 10; $x++) {
 	if ($numSensors < $tbl_TempSet[$x][numSensor]){
 		$numSensors = $tbl_TempSet[$x][numSensor];
 	}
 }
 
 $interOFFtimer = $tbl_TempSet[0][interOFFtimer];
+
+$heatingON_OFF = $tbl_TempSet[0][heatingON_OFF];
 
 /*
 $returned_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,7 +68,7 @@ foreach($returned_results as $key=>$result) {
         // ... in this case it's ws/simple
         //wsUri += "//" + loc.host + loc.pathname.replace("simple","ws/simple");
 		wsUri += "//iot2better.iptime.org:443/ws/simple";
-		
+
 
         function wsConnect() {
             console.log("connect",wsUri);
@@ -110,7 +112,7 @@ foreach($returned_results as $key=>$result) {
 */
 
 
-  
+
   function plus(obj)
   {
 	  //alert(obj.value);
@@ -172,7 +174,7 @@ function basic(obj)
 		//alert(obj.value);
     }
   }
- 
+
   function frm_submit()
   {
     var frm = document.goFrm;
@@ -196,7 +198,7 @@ function basic(obj)
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- jvectormap 
+  <!-- jvectormap
   <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   -->
   <!-- bootstrap slider -->
@@ -208,8 +210,10 @@ function basic(obj)
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
-  
+
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -307,7 +311,7 @@ function basic(obj)
 
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-pie-chart"></i> 
+            <i class="fa fa-pie-chart"></i>
             <span>온도 그래프</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -318,11 +322,11 @@ function basic(obj)
 
 				<li class=""><a href="each_room.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo '(방'; echo $x+1; echo ') '; echo $tbl_TempSet[$x][roomName]; ?> 그래프</a></li>
-			
+
 			<?php } ?>
           </ul>
         </li>
-		
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-share"></i> <span>실시간 온도</span>
@@ -335,7 +339,7 @@ function basic(obj)
 
 				<li class=""><a href="realtime.php?roomParam=<?php echo $x+1; ?>">
 					<i class="fa fa-circle-o"></i> <?php echo $tbl_TempSet[$x][roomName]; ?>의 실시간 온도</a></li>
-			
+
 			<?php } ?>
 
 
@@ -359,7 +363,7 @@ function basic(obj)
       </h1>
     </section>
 
-	
+
     <!-- Main content -->
     <section class="content">
       <!-- Info boxes -->
@@ -367,6 +371,24 @@ function basic(obj)
 	<div class="row">
 		<div class="col-sm-6">
 			<p>
+
+				<div class="box-header with-border">
+					<label class="checkbox-inline">
+					  <h4><input id="heatingON_OFF_slide" name="heatingON_OFF_slide" type="checkbox" value=""
+							<?php
+							//echo $heatingON_OFF;
+							if( $heatingON_OFF == 1 ){
+								echo "checked";
+							}else{
+								echo "";
+							}
+							?>
+							data-toggle="toggle" data-width="100" data-onstyle="danger" data-offstyle="info">  <b>...전체 난방 시스템 상태 입니다...</b></h4>
+							<div id="console-event"></div>
+
+					</label>
+				</div>
+
 				<div class="box-header with-border">
 					<h3 class="box-title"><b><?php echo " 현재 계량값 : "; echo $acc_Count; echo " m³"; ?></b></h3><br></br>
 					<?php echo "<h4> 새로운 계량값을 입력 하세요... "; echo "단위는 m³ 입니다."; echo "</h4>"; ?>
@@ -375,14 +397,14 @@ function basic(obj)
 			<p>
 		</div>
 	</div>
-	
+
 	<div class="row">
 		<div class="col-sm-6">
 			<p>
 			<p>
 			<h3><span class="label label-Default" id="ex6CurrentSliderValLabel">현재 순환 주기 : <span id="ex6SliderVal"><?php echo $interOFFtimer; ?></span> min</span></h3>
 			<br>
-			<input id="inter_temp_slide" name="inter_temp_slide" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="61" data-slider-step="1" data-slider-value="<?php echo $interOFFtimer;?>" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red"> 
+			<input id="inter_temp_slide" name="inter_temp_slide" type="text" value="" class="slider form-control" data-slider-min="0" data-slider-max="61" data-slider-step="1" data-slider-value="<?php echo $interOFFtimer;?>" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="red">
 			<br>
 		</div>
 	</div>
@@ -390,7 +412,7 @@ function basic(obj)
 		<div class="col-md-6">
 			<div class="form-group">
 				  <div class="btn-group" role="group">
-					<button id="save" 
+					<button id="save"
 					name ="save" type=submit class="btn btn-default"><i class="fa fa-floppy-o"></i>  설정 저장</button>
 				  </div>
 			</div>
@@ -412,7 +434,7 @@ function basic(obj)
 					<?php echo "<h4> 설정된 온도 : "; echo $tbl_TempSet[$x][L_temp]; echo "°C"; echo "</h4>"; ?>
 				</div>
 				<!-- /.box-header -->
-				
+
 				<!-- form start -->
 				<!--<form role="form">-->
 					<div class="box-body">
@@ -424,9 +446,9 @@ function basic(obj)
 						<br>
 -->
 						<div class="input-group input-group-md">
-							<input id = <?php echo "eachTemp";echo $x;?> 
+							<input id = <?php echo "eachTemp";echo $x;?>
 									name = <?php echo "eachTemp";echo $x;?>
-									type = "text";" class="form-control border-input" 
+									type = "text";" class="form-control border-input"
 									value = "<?php echo $tbl_TempSet[$x][L_temp];?>">
 								<span class="input-group-btn">
 									<!--<button type="submit" id="save" name ="save" class="btn btn-info btn-flat">기본 설정</button>-->
@@ -444,7 +466,7 @@ function basic(obj)
 									<button TYPE="button" name="m_btn" ONCLICK="minus(<?php echo "eachTemp";echo $x;?>);" class="btn btn-primary btn-md"><i class="fa fa-arrow-circle-down"></i> 온도내림</button>
 								  </div>
 								  <div class="btn-group" role="group">
-									<button TYPE="button" name="p_btn" ONCLICK="plus(<?php echo "eachTemp";echo $x;?>);" class="btn btn-danger btn-md"><i class="fa  fa-arrow-circle-up"></i> 온도올림</button>	
+									<button TYPE="button" name="p_btn" ONCLICK="plus(<?php echo "eachTemp";echo $x;?>);" class="btn btn-danger btn-md"><i class="fa  fa-arrow-circle-up"></i> 온도올림</button>
 								  </div>
 								  <div class="btn-group" role="group">
 									<button TYPE="button" name="zero_btn" ONCLICK="zero(<?php echo "eachTemp";echo $x;?>);" class="btn btn btn-default btn-md"><i class="fa fa-arrow-circle-right"></i> 0 °C 설정</button>
@@ -453,12 +475,12 @@ function basic(obj)
 							</div>
 
 
-							
+
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										  <div class="btn-group" role="group">
-											<button id="save" 
+											<button id="save"
 											name ="save" type=submit class="btn btn-default"><i class="fa fa-floppy-o"></i>  설정 저장</button>
 										  </div>
 									</div>
@@ -473,27 +495,27 @@ onclick='doit(
 											+eachTemp1.value+","
 											+eachTemp2.value+","
 											+eachTemp6.value+"}"
-											);' 
+											);'
 <div id="status">unknown</div>
 -->
 						</div>
-					  
-<!--							
+
+<!--
 						<div class="pull-left">
 							<button id="save" name ="save" type=submit class="btn btn-default margin-bottom btn-lg"><i class="fa fa-floppy-o"></i> 설정 저장</button>
 						</div>
 -->
 					</div>
 				<!--</form>-->
-				
+
 			  </div>
 			  <!-- /.box -->
 			</div>
 		</div>
 <?php } ?>
 	</form>
-		
-  
+
+
     </section>
     <!-- /.content -->
   </div>
@@ -523,14 +545,14 @@ onclick='doit(
 <script src="plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-<!-- Sparkline 
+<!-- Sparkline
 <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
 -->
-<!-- jvectormap 
+<!-- jvectormap
 <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 -->
-<!-- SlimScroll 1.3.0 
+<!-- SlimScroll 1.3.0
 <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
 -->
 <!-- ChartJS 1.0.1 -->
@@ -542,9 +564,20 @@ onclick='doit(
 <script src="dist/js/demo.js"></script>
 <!-- Bootstrap slider -->
 <script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
+
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
 <script>
+  $(function() {
+    $('#heatingON_OFF_slide').change(function() {
+      $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+    })
+  })
+</script>
 
 
+<script>
 $("#inter_temp_slide").on("slide", function(slideEvt) {
 	$("#ex6SliderVal").text(slideEvt.value);
 
