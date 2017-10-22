@@ -123,25 +123,30 @@ $tbl_TempSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //echo $tbl_TempSet[0][roomName];
 if(isset($_POST['save']))
 {
-$inter_temp_slide = $_POST['inter_temp_slide'];
-$acc_Count_value = $_POST['acc_Count'];
-//$heatingON_OFF_slide = $_POST['heatingON_OFF_slide'];
-$Ltemp_array = array();
-$Label_t="{\"mac\":\"";
-$Label_t = $Label_t.$mac;
-$Label_t = $Label_t."\",";
-$Label_t = $Label_t."\"nS\":";
-$Label_t = $Label_t.$tbl_TempSet[0][numSensor];
-$Label_t = $Label_t.",";
-$Label_t = $Label_t."\"i_Timer\":";
-$Label_t = $Label_t.$inter_temp_slide;
-$Label_t = $Label_t.",";
-$Label_t = $Label_t."\"acc_Count\":";
-$Label_t = $Label_t.$acc_Count_value;
-$Label_t = $Label_t.",";
-//$Label_t = $Label_t."\"hOF\":";
-//$Label_t = $Label_t.$heatingON_OFF_slide;
-//$Label_t = $Label_t.",";
+	$inter_temp_slide = $_POST['inter_temp_slide'];
+	$acc_Count_value = $_POST['acc_Count'];
+	if(isset($_POST['heatingON_OFF_slide'])){
+		$heatingON_OFF_slide = 1;
+	}
+	else{
+		$heatingON_OFF_slide = 0;
+	}
+	$Ltemp_array = array();
+	$Label_t="{\"mac\":\"";
+	$Label_t = $Label_t.$mac;
+	$Label_t = $Label_t."\",";
+	$Label_t = $Label_t."\"nS\":";
+	$Label_t = $Label_t.$tbl_TempSet[0][numSensor];
+	$Label_t = $Label_t.",";
+	$Label_t = $Label_t."\"i_Timer\":";
+	$Label_t = $Label_t.$inter_temp_slide;
+	$Label_t = $Label_t.",";
+	$Label_t = $Label_t."\"acc_Count\":";
+	$Label_t = $Label_t.$acc_Count_value;
+	$Label_t = $Label_t.",";
+	$Label_t = $Label_t."\"hOF\":";
+	$Label_t = $Label_t.$heatingON_OFF_slide;
+	$Label_t = $Label_t.",";
 
 
 	for ($x = 0; $x < ($tbl_TempSet[$x][numSensor]-1); $x++) {
