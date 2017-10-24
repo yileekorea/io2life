@@ -383,7 +383,7 @@ function basic(obj)
 								echo "";
 							}
 							?>
-							data-toggle="toggle" data-width="100" data-onstyle="danger" data-offstyle="info">  <b>...전체 난방 상태 입니다...</b></h4>
+							data-toggle="toggle" data-width="100" data-onstyle="danger" data-offstyle="info">  <b>--> 시스템 상태 입니다...</b></h4>
 							<div id="console-event"></div>
 
 					</label>
